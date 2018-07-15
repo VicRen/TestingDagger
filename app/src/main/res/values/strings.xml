@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TestingDagger</string>
+    <string name="go_to_second">Go to Second</string>
+</resources>
