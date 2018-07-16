@@ -21,6 +21,6 @@ public class SecondPresenter implements SecondContract.Presenter {
 
     @Override
     public void printPresenter() {
-        mView.onPrint(this.toString() + "\n" + userRepository.toString());
+        mView.onPrint(this.toString() + "\n" + mView.toString() + "\n" + userRepository.toString());
     }
 }

@@ -1,17 +1,22 @@
 package ren.vic.testingdagger.presentation.second;
 
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import dagger.Lazy;
 import ren.vic.testingdagger.R;
 import ren.vic.testingdagger.presentation.common.BaseActivity;
+import ren.vic.testingdagger.presentation.utils.ActivityUtils;
 
-public class SecondActivity extends BaseActivity implements SecondContract.View {
+public class SecondActivity extends BaseActivity {
 
-    @BindView(R.id.text)
-    TextView textView;
+    @BindView(R.id.container)
+    FrameLayout container;
+
+    @Inject
+    Lazy<SecondFragment> secondFragmentProvider;
 
     @Inject
     SecondContract.Presenter presenter;
@@ -25,13 +30,12 @@ public class SecondActivity extends BaseActivity implements SecondContract.View 
     protected void initData() {
         if (mAppBar != null) {
             mAppBar.setTitle("SecondActivity");
+            mAppBar.setTitle(presenter.toString().substring(presenter.toString().length() - 8));
         }
-        presenter.setView(this);
-        presenter.printPresenter();
-    }
-
-    @Override
-    public void onPrint(String text) {
-        textView.setText(text);
+        SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(R.id.container);
+        if (secondFragment == null) {
+            secondFragment = secondFragmentProvider.get();
+        }
+        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), secondFragment, R.id.container);
     }
 }
